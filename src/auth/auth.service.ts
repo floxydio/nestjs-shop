@@ -45,10 +45,42 @@ export class AuthService {
         return {
           status: 200,
           access_token: await this.jwtService.signAsync({ id: user.id, email: user.email, name: user.name }),
+          data: {
+            id: user.id,
+            name: user.name,
+            email: user.email
+          },
           message: "User logged in successfully"
         }
       }
 
+    }).catch((error) => {
+      return {
+        status: 500,
+        message: "Internal server error"
+      }
+    })
+  }
+
+  findOne(id: number) {
+    return this.prisma.users.findUnique({
+      where: {
+        id: id
+      }, omit: {
+        password: true
+      }
+    }).then((user) => {
+      if (!user) {
+        return {
+          status: 404,
+          message: "User not found"
+        }
+      } else {
+        return {
+          status: 200,
+          data: user
+        }
+      }
     }).catch((error) => {
       return {
         status: 500,

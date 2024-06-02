@@ -48,4 +48,25 @@ export class ProductService {
     })
   }
 
+  findOne(id: number) {
+    return this.prisma.product.findFirst({
+      where: {
+        product_id: Number(id)
+      }
+    }).then((data) => {
+      if (!data) {
+        return {
+          status: 404,
+          message: "Product not found"
+        }
+      } else {
+        return {
+          status: 200,
+          data: data,
+          message: "Product found successfully"
+        }
+      }
+    })
+  }
+
 }

@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -16,6 +17,7 @@ model users {
   createdAt DateTime  @default(now())
   updatedAt DateTime?
   product   product[]
+  rating    rating[]
 }
 
 model product {
@@ -26,7 +28,20 @@ model product {
   product_image String?  @db.VarChar(255)
   seller_id     Int
   createdAt     DateTime @default(now()) @db.DateTime(0)
-  users         users    @relation(fields: [seller_id], references: [id], onUpdate: Restrict, map: "product_ibfk_1")
+  users         users    @relation(fields: [seller_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "product_ibfk_1")
+  rating        rating[]
 
-  @@index([seller_id], map: "seller_id")
+  @@index([seller_id], map: "product_ibfk_1")
+}
+
+model rating {
+  rating_id  Int     @id @default(autoincrement())
+  product_id Int
+  user_id    Int
+  rating     Float   @db.Float
+  product    product @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: Restrict, map: "rating_ibfk_1")
+  users      users   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "rating_ibfk_2")
+
+  @@index([product_id], map: "rating_ibfk_1")
+  @@index([user_id], map: "user_id")
 }

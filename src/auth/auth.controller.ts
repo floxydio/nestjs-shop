@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 
 import { Response } from 'express';
 import { SignInDto } from './dto/sign-in.dto';
+import { JwtAuthGuard } from './jwt/jwt-authguard';
 
 
 @Controller('auth')
@@ -28,4 +29,13 @@ export class AuthController {
     });
   }
 
+  @Get("find-profile/:id")
+  @UseGuards(JwtAuthGuard)
+  findOne(@Param('id') id: string, @Res() res: Response) {
+    return this.authService.findOne(+id).then((data) => {
+      return res.status(200).json(data)
+    }).catch((error) => {
+      return res.status(400).json(error)
+    });
+  }
 }

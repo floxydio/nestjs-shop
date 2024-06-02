@@ -5,6 +5,7 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer'
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-authguard';
+import { CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('product')
 export class ProductController {
@@ -44,12 +45,27 @@ export class ProductController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll(@Res() res: Response,) {
+  @CacheKey('products')
+  @CacheTTL(60)
+  findAll(@Res() res: Response) {
     return this.productService.findAll().then((data) => {
       return res.status(data.status).json(data)
     }).catch((error) => {
       return res.status(400).json(error)
     });
   }
+
+  @Get("detail/:id")
+  @UseGuards(JwtAuthGuard)
+  @CacheKey('product_id')
+  @CacheTTL(60)
+  findOne(@Param('id') id: string, @Res() res: Response) {
+    return this.productService.findOne(+id).then((data) => {
+      return res.status(data.status).json(data)
+    }).catch((error) => {
+      return res.status(400).json(error)
+    });
+  }
+
 
 }
