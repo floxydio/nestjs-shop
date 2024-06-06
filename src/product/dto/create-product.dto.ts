@@ -8,6 +8,9 @@ export class CreateProductDto {
     quantity: number;
 
     @ApiProperty()
+    category: string
+
+    @ApiProperty()
     price: number;
 
     @ApiProperty()

@@ -13,6 +13,7 @@ export class ProductService {
         nama: createProductDto.nama,
         quantity: String(createProductDto.quantity),
         price: Number(createProductDto.price),
+        category: createProductDto.category,
         product_image: createProductDto.product_image,
         seller_id: Number(createProductDto.seller_id)
       }
@@ -23,7 +24,6 @@ export class ProductService {
         message: "Product created successfully"
       }
     }).catch((error) => {
-      console.log("error", error)
       return {
         status: 400,
         message: error
@@ -31,11 +31,18 @@ export class ProductService {
     })
   }
 
-  findAll() {
-    return this.prisma.product.findMany().then((data) => {
+  findAll(category: string) {
+    return this.prisma.product.findMany({
+      where: {
+        category: category === undefined ? undefined : {
+          contains: category
+        }
+      }
+    }).then((data) => {
       if (data.length === 0) {
         return {
-          status: 404,
+          status: 200,
+          data: [],
           message: "No product found"
         }
       } else {
@@ -68,5 +75,4 @@ export class ProductService {
       }
     })
   }
-
 }

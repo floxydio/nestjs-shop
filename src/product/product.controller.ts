@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UseInterceptors, UploadedFile, UseGuards, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Response } from 'express';
@@ -52,8 +52,8 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @CacheKey('products')
   @CacheTTL(60)
-  findAll(@Res() res: Response) {
-    return this.productService.findAll().then((data) => {
+  findAll(@Res() res: Response, @Query("category") category: string) {
+    return this.productService.findAll(category).then((data) => {
       return res.status(data.status).json(data)
     }).catch((error) => {
       return res.status(400).json(error)
