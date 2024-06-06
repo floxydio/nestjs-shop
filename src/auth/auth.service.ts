@@ -32,13 +32,13 @@ export class AuthService {
     }).then(async (user) => {
       if (!user) {
         return {
-          status: 404,
+          status: 400,
           message: "User not found"
         }
       }
       if (!bcrypt.compareSync(password, user.password)) {
         return {
-          status: 401,
+          status: 400,
           message: "Username or Password is incorrect"
         }
       } else {
@@ -72,7 +72,7 @@ export class AuthService {
     }).then((user) => {
       if (!user) {
         return {
-          status: 404,
+          status: 400,
           message: "User not found"
         }
       } else {

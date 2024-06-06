@@ -13,7 +13,6 @@ export class CreateAuthDto {
     name: string;
 
     @ApiProperty()
-    @Min(6)
     @IsString()
     password: string;
 }

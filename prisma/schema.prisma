@@ -45,3 +45,10 @@ model rating {
   @@index([product_id], map: "rating_ibfk_1")
   @@index([user_id], map: "user_id")
 }
+
+model slider {
+  slider_id    Int      @id @default(autoincrement())
+  slider_image String   @db.VarChar(255)
+  active       Int      @default(1)
+  created_at   DateTime @default(now()) @db.DateTime(0)
+}

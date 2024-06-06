@@ -20,10 +20,10 @@ export class AuthController {
     });
   }
 
-  @Post("sign-in")
+  @Post("login")
   signIn(@Body() body: SignInDto, @Res() res: Response) {
     return this.authService.signIn(body.email, body.password).then((data) => {
-      return res.status(200).json(data)
+      return res.status(data.status).json(data)
     }).catch((error) => {
       return res.status(400).json(error)
     });

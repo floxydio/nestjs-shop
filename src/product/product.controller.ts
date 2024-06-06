@@ -14,11 +14,16 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
-      destination: './storage',
+      destination: './storage/product',
       filename: (req, file, cb) => {
         const filename: string = file.originalname.split('.')[0]
         const fileExtName: string = file.originalname.split('.')[1]
-        cb(null, `${filename}-${Date.now()}.${fileExtName}`)
+        // generate 10 random characters
+        const randomName = Array(10)
+          .fill(null)
+          .map(() => Math.round(Math.random() * 16).toString(16))
+          .join('')
+        cb(null, `${randomName}.${fileExtName}`)
       }
     }),
     limits: {
