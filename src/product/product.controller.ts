@@ -52,8 +52,8 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @CacheKey('products')
   @CacheTTL(60)
-  findAll(@Res() res: Response, @Query("category") category: string) {
-    return this.productService.findAll(category).then((data) => {
+  findAll(@Res() res: Response, @Query("category") category: string, @Query("nama") nama: string) {
+    return this.productService.findAll(category, nama).then((data) => {
       return res.status(data.status).json(data)
     }).catch((error) => {
       return res.status(400).json(error)

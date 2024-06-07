@@ -31,11 +31,14 @@ export class ProductService {
     })
   }
 
-  findAll(category: string) {
+  findAll(category: string, nama: string) {
     return this.prisma.product.findMany({
       where: {
         category: category === undefined ? undefined : {
           contains: category
+        },
+        nama: nama === undefined ? undefined : {
+          contains: nama
         }
       }
     }).then((data) => {
