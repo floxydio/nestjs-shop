@@ -53,3 +53,10 @@ model slider {
   active       Int      @default(1)
   created_at   DateTime @default(now()) @db.DateTime(0)
 }
+
+model transaction_history {
+  transaction_id Int    @id @default(autoincrement())
+  trx_id         String @db.VarChar(255)
+  product_id     Int
+  user_id        Int
+}

@@ -78,4 +78,21 @@ export class ProductService {
       }
     })
   }
+
+  findTransaction() {
+    console.log("executed...")
+    return this.prisma.transaction_history.findMany().then((data) => {
+      return {
+        status: 200,
+        data: data,
+        message: "Successfully Load Transaction History"
+      }
+    }).catch((err) => {
+      return {
+        status: 400,
+        message: err
+      }
+    })
+  }
+
 }

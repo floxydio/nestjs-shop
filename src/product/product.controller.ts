@@ -61,7 +61,7 @@ export class ProductController {
   }
 
   @Get("detail/:id")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @CacheKey('product_id')
   @CacheTTL(60)
   findOne(@Param('id') id: string, @Res() res: Response) {
@@ -70,6 +70,16 @@ export class ProductController {
     }).catch((error) => {
       return res.status(400).json(error)
     });
+  }
+
+  @Get("/transaction")
+  findTransaction(@Res() res: Response) {
+    console.log("executed")
+    return this.productService.findTransaction().then((data) => {
+      return res.status(200).json(data)
+    }).catch((error) => {
+      return res.status(400).json(error)
+    })
   }
 
 
