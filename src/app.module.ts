@@ -6,8 +6,8 @@ import { RatingModule } from './rating/rating.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SliderModule } from './slider/slider.module';
+import { ConfigModule } from '@nestjs/config';
 
-console.log(join(__dirname, '..', 'storage'))
 
 @Module({
     imports: [
@@ -16,6 +16,8 @@ console.log(join(__dirname, '..', 'storage'))
 
         }),
         CacheModule.register(),
+        ConfigModule.forRoot(),
+
         AuthModule, ProductModule, RatingModule, SliderModule],
 })
 export class AppModule { }
