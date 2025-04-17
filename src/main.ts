@@ -21,6 +21,7 @@ async function bootstrap() {
     },
     stopAtFirstError: true,
   }));
+  console.log(process.env.PORT_RUNNING)
   await app.listen(process.env.PORT_RUNNING);
 }
 bootstrap();
