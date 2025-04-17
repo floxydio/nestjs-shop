@@ -48,7 +48,8 @@ export class AuthService {
           data: {
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            role: user.role
           },
           message: "User logged in successfully"
         }
@@ -66,9 +67,7 @@ export class AuthService {
     return this.prisma.users.findUnique({
       where: {
         id: id
-      }, omit: {
-        password: true
-      }
+      },
     }).then((user) => {
       if (!user) {
         return {
