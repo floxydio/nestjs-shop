@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:FLOXTEST1234!@203.194.113.104:3306/testdocker"
+  url      = env("DATABASE_URL")
 }
 
 model users {
